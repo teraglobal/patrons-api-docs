@@ -1,0 +1,82 @@
+openapi: 3.1.0
+info:
+  title: Webhooks
+  version: '1.0'
+  contact:
+    name: Tjiputra Yapeter
+    url: www.thepatrons.co
+    email: api@thepatrons.co
+  description: |-
+    # Listen for events on your Patrons VMS so your integration can automatically trigger reactions.
+
+    Patrons use webhooks to notify your appliaction when an event happens in your account. Webhooks are particularly useful for asynchronous events like when a visitor confirms an invitation, or a visitor reach the sites.
+
+    Begin using webhooks with your Patrons integration in just two steps:
+    1. Create a webhook endpoint on your server
+    2. Register the endpoint with Patrons to go live.
+servers:
+  - url: 'https://api.thepatrons.co'
+paths:
+  /webhooks:
+    post:
+      summary: Webhooks
+      operationId: post-webhooks
+      responses:
+        '201':
+          description: Created
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                default: application/json
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to create a new user.
+      description: |-
+        Webhooks on event notifications
+
+        Webhooks will be notified based on these event type
+        * event.created
+        * event.updated
+        * event.canceled
+        * attendee.registered
+        * attendee.checkIn
+      tags:
+        - webhooks
+    parameters: []
+components:
+  securitySchemes:
+    fdfdsfdsfdf:
+      type: http
+      scheme: bearer
+tags:
+  - name: webhooks
